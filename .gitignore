@@ -1,0 +1,17 @@
+.vs/
+[Bb]in/
+[Dd]ebug/
+[Dd]ebug_rtlstatic/
+[Oo]bj/
+[Rr]elease/
+[Rr]elease_rtlstatic/
+TestResults/
+
+*.g.*
+*.dbmdl
+*.dll
+*.exe
+*.jfm
+*.log
+*.msi
+*.user
