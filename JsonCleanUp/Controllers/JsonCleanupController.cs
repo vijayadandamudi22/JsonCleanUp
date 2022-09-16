@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json.Linq;
 using JsonCleanup.Domain;
+using JsonCleanUp.Common;
+using Newtonsoft.Json;
 
 namespace JsonCleanUp.Controllers
 {
@@ -25,9 +26,15 @@ namespace JsonCleanUp.Controllers
                 stream.Position = 0;
                 var read = new StreamReader(stream);
                 var text = read.ReadToEnd();
-                dynamic json = JObject.Parse(text);
-                _removeNode.RemoveJsonNode(json);
-                return Ok(json.ToString());
+                var myData = JsonConvert.DeserializeObject<IDictionary<String, object>>(text);
+                var result = myData.Where(item => !(item.Value is string && StringExtensions.IsStringValid(item.Value.ToString())))
+                                   .Select(obj => new Dictionary<String, object> {
+                                                                                     { obj.Key, obj.Value }
+                                                                                 })
+                                   .ToList();
+                _removeNode.RemoveJsonNode(result);
+
+                return Ok(JsonConvert.SerializeObject(result));
             }
         }
     }

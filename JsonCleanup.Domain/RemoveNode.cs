@@ -1,18 +1,18 @@
-﻿namespace JsonCleanup.Domain
+﻿using JsonCleanUp.Common;
+
+namespace JsonCleanup.Domain
 {
     public class RemoveNode : IRemoveNode
     {
-        private const string Name = "name";
-        private const string Hobbies = "hobbies";
-        private const string Education = "education";
-        private const string NA = "N/A";
-        private const string Hypen = "-";
-
-        public void RemoveJsonNode(dynamic node)
+        public void RemoveJsonNode(List<Dictionary<String, Object>> data)
         {
-            TryRemoveNode(node[Name]);
-            TryRemoveNode(node[Hobbies]);
-            TryRemoveNode(node[Education]);
+            foreach (var valuePairs in data)
+            {
+                foreach (var item in valuePairs)
+                {
+                    TryRemoveNode(item.Value);
+                }
+            }
         }
 
         private void TryRemoveNode(dynamic node)
@@ -24,7 +24,7 @@
                 {
                     foreach (var item in node)
                     {
-                        if (String.IsNullOrEmpty(item.Value.ToString()) || String.Equals(item.Value.ToString(), NA, StringComparison.OrdinalIgnoreCase) || String.Equals(item.Value.ToString(), Hypen, StringComparison.OrdinalIgnoreCase))
+                        if (StringExtensions.IsStringValid(item.Value.ToString()))
                         {
                             item.Remove();
                             IsRemoved = true;
@@ -33,7 +33,7 @@
                         else
                             IsRemoved = false;
                     }
-                }   
+                }
                 catch (Exception)
                 {
                     IsRemoved = false;

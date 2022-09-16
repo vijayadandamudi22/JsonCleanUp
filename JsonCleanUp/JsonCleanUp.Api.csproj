@@ -12,6 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\JsonCleanUp.Common\JsonCleanUp.Common.csproj" />
     <ProjectReference Include="..\JsonCleanup.Domain\JsonCleanup.Domain.csproj" />
   </ItemGroup>
 

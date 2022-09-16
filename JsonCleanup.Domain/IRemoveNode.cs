@@ -2,6 +2,6 @@
 {
     public interface IRemoveNode
     {
-        void RemoveJsonNode(dynamic node);
+        void RemoveJsonNode(List<Dictionary<String, Object>> data);
     }
 }
